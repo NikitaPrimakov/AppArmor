@@ -1,6 +1,6 @@
 # AppArmor profiles
 
-## <a name="Nginx"></a>
+## Nginx
 
 **Nginx** - it is an HTTP server, a reverse proxy server with support for caching and load balancing
 
