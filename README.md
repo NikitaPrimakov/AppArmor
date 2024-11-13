@@ -1,3 +1,9 @@
+# Table of contents
+
+1. [Nginx](https://github.com/NikitaPrimakov/AppArmor?tab=readme-ov-file#nginx)
+2. [Keycloak](https://github.com/NikitaPrimakov/AppArmor?tab=readme-ov-file#keycloak)
+3. [Php - fpm](https://github.com/NikitaPrimakov/AppArmor?tab=readme-ov-file#php-fpm) 
+
 # AppArmor profiles
 
 ## Nginx
@@ -106,3 +112,11 @@ sudo nano /etc/apparmor.d/usr.sbin.nginx
 ```
 
 The contents of the file can be placed in this configuration file [nginx.profile](https://github.com/NikitaPrimakov/AppArmor/blob/main/nginx/nginx.profile)
+
+
+## Keycloak
+
+
+
+
+## Php-fpm
