@@ -1,8 +1,8 @@
 # Table of contents
 
-1. [Nginx](https://github.com/NikitaPrimakov/AppArmor?tab=readme-ov-file#nginx)
-2. [Keycloak](https://github.com/NikitaPrimakov/AppArmor?tab=readme-ov-file#keycloak)
-3. [Php - fpm](https://github.com/NikitaPrimakov/AppArmor?tab=readme-ov-file#php-fpm) 
+1. [Nginx](https://github.com/NikitaPrimakov/AppArmor/tree/main/nginx)
+2. [Keycloak](https://github.com/NikitaPrimakov/AppArmor/tree/main/keycloak)
+3. [Php - fpm](https://github.com/NikitaPrimakov/AppArmor/tree/main/php-fpm) 
 
 # AppArmor profiles
 
