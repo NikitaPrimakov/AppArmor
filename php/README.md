@@ -1,0 +1,3 @@
+# _Php-fpm_
+
+PHP-FPM is an ideal candidate to secure with AppArmor. Not only can the security of a web server be endangered by security bugs in PHP itself, it can also be affected by security holes in PHP applications. By confining PHP-FPM with AppArmor, we can limit abuse when a security hole is exploited, by preventing PHP-FPM for example from reading arbitrary files on your system or executing random binaries, which may contain a Linux backdoor or crypto-miner malware.
