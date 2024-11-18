@@ -2,7 +2,7 @@
 
 1. [Nginx](https://github.com/NikitaPrimakov/AppArmor/tree/main/nginx)
 2. [Keycloak](https://github.com/NikitaPrimakov/AppArmor/tree/main/keycloak)
-3. [Php - fpm](https://github.com/NikitaPrimakov/AppArmor/tree/main/php-fpm) 
+3. [Php - fpm](https://github.com/NikitaPrimakov/AppArmor/tree/main/php 
 
 # AppArmor profiles
 
