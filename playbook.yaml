@@ -1,0 +1,26 @@
+---
+- name: Copy AppArmor profile from GitLab
+  hosts: target_machine
+  tasks:
+  - name: Clone GitLab repository
+    git:
+      repo: <url toyour gitlab repo>
+      dest: /keycloak/keycloak.profile
+
+  - name: Copy AppArmor profile
+    copy:
+      content: "{{ lookup('file', '/keycloak/keycloak.profile') }}"
+      dest: /etc/apparmor.d/keycloak.profile
+      mode: 0644
+
+  - name: Reload AppArmor profiles
+    command: apparmor_parser -r /etc/apparmor.d/keycloak.profile
+
+  - name: Enable AppArmor profile
+    command: aa-enforce /etc/apparmor.d/keycloak.profile
+
+  - name: Verify AppArmor profile is loaded
+    command: apparmor_status
+    register: apparmor_status
+  - debug:
+      var: apparmor_status.stdout
