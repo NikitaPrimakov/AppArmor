@@ -1,0 +1,7 @@
+Package: keycloak
+Version: 2024.11.19-1
+Maintainer: PrimakovNA <primakovna@loodsen.ru>
+Architecture: all
+Section: misc
+Description: AppArmor profile for Keycloak
+Depends: apparmor-profiles
