@@ -7,3 +7,4 @@ apparmor_parser -r /etc/apparmor.d
 aa-enforce /etc/apparmor.d/keycloak
 
 # Restart the service to apply the new AppArmor profile
+service keycloak restart
