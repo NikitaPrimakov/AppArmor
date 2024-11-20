@@ -45,17 +45,22 @@ profile keycloak {
   # Разрешить Keycloak выполнять запись в свой каталог
   /var/lib/keycloak/** rw,
 
-  # Разрешить Keycloak прослушивать свой порт по умолчанию
- ## network inet tcp listen 8080,
+  # Разрешить Keycloak привязываться к своему собственному порту
+  /var/run/keycloak.pid r,
 
-  # Разрешить Keycloak подключаться к своей базе данных
- ## network inet tcp connect 5432,
+  # Разрешить Keycloak запускать свои собственные двоичные файлы
+  /opt/keycloak/bin/** ix,
+
+  # Разрешить Keycloak читать системные библиотеки
+  /usr/lib/** r,
+
+  # Разрешить Keycloak прослушивать свой порт по умолчанию
+  network inet tcp,
 
   # Разрешить Keycloak запускать свою JVM
   /usr/lib/jvm/java-11-openjdk-amd64/bin/java ix,
 
   # Запретить доступ ко всем другим файловым системам
-  deny /** rw,
-
+  deny /**,
 
 }
