@@ -19,17 +19,23 @@ profile keycloak {
   # позволяет Keycloak привязываться к привилегированным портам (например, к порту 80)
   capability net_bind_service,
 
-  # позволяет Keycloak выполнять задачи сетевого администрирования (например, устанавливать IP-адреса).
-  capability net_admin,
-
   # позволяет Keycloak изменять владельца файлов
   capability chown,
 
   # позволяет Keycloak считывать содержимое каталога и выполнять поиск файлов
   capability dac_read_search,
 
+  # позволяет Keycloak переопределять права доступа к файлам
+  capability dac_override,
+
   # позволяет Keycloak выполнять файловые операции (например, чтение, запись, удаление) с файлами, которыми он владеет
   capability fowner,
+
+  # позволяет Keycloak отправлять сигналы другим процессам
+  capability kill,
+
+  # позволяет Keycloak устанавливать биты set-user-ID и set-group-ID для файлов и каталогов
+  capability fsetid,
 
   # позволяет Keycloak устанавливать идентификатор группы для процесса
   capability setgid,
