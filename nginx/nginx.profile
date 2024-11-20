@@ -18,48 +18,50 @@ profile nginx /usr/sbin/nginx flags=(enforce) {
   include <abstractions/openssl>
   # чтение ssl - сертификатов
   include <abstractions/ssl_keys> 
-  #
+  # файл абстракции AppArmor, который предоставляет набор правил для доступа к сетевой информационной службе 
   include <abstractions/nis> 
 
 
   # обход проверки разрешений чтения, записи и выполнения файлов
   capability dac_override,
+
   # выполнение различных сетевых операций
   capability net_admin,
+
   # изменение GID
   capability setgid,
+
   # изменение UID
   capability setuid,
+  
   # связывание сокетов с портами ниже 1024
-  capability net_bind_service 
+  capability net_bind_service,
 
+  # Разрешить Nginx считывать и записывать данные в свои конфигурационные файлы
+  /etc/nginx/** r,
+  /etc/nginx/conf.d/** r,
+  /etc/nginx/sites-enabled/** r,
+  /etc/nginx/sites-available/** r,
 
-  # системные файлы для аутентификации и другое
-  /etc/gorup r,   
-  /etc/passwd r,  
-  /etc/nsswitch.conf r, 
+  # Разрешить Nginx читать и записывать в свои лог-файлы
+  /var/log/nginx/** rw,
 
-  
-  # 
-  /usr/sbin/nginx mr,
-  /run/nginx.pid rw, 
+  # Разрешить Nginx доступ к своему файлу идентификатора процесса
+  /run/nginx.pid r,
 
+  # Разрешить Nginx доступ к своему файлу сокета
+  /var/run/nginx.sock rw,
 
-  # файлы конфинурации nginx
-  /etc/nginx/conf.d/* r, 
-  /etc/nginx/mime.types r, 
-  /etc/nginx/nginx.conf r, 
-  /etc/nginx/snippets/* r, 
-  /etc/ssl/openssl.cnf r, 
-  owner /etc/nginx/conf.d/ r, 
-  owner /etc/nginx/snippets/ r, 
+  # Разрешить Nginx выполнять свои CGI-скрипты
+  /usr/lib/nginx/modules/*.so mr,
 
+  # Разрешить Nginx доступ к своему корневому каталогу документов
+  /var/www/** r,
 
-  # логи
-  /var/log/nginx/* w,
-  
-  
-  # webroot
-  /srv/** r, 
+  # Разрешить Nginx прослушивать порты HTTP и HTTPS
+  network inet tcp,
+  network inet udp,
 
+  # Запретить доступ ко всем другим файловым системам
+  deny /{,**} rw,
 }
