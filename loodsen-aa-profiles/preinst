@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Проверка на root права
+if [ "$EUID" -ne 0 ]; then
+    echo "Пожалуйста, запустите скрипт с правами root (используйте sudo)"
+    exit 1
+fi
+
+echo "=== Начало установки AppArmor ==="
+
+# Создание необходимых директорий
+echo "Создание необходимых директорий..."
+mkdir -p /var/lib/apt/lists/partial
+mkdir -p /var/cache/apt/archives/partial
+
+# Базовое обновление
+echo "Обновление списка пакетов..."
+apt-get update --fix-missing
+
+# Установка AppArmor
+echo "Установка AppArmor..."
+apt-get install -y apparmor
+
+# Если базовая установка успешна, устанавливаем дополнительные компоненты
+if [ $? -eq 0 ]; then
+    echo "Установка дополнительных компонентов..."
+    apt-get install -y \
+        apparmor-utils \
+        apparmor-profiles \
+        apparmor-profiles-extra
+fi
+
+# Проверка установки
+if command -v aa-status >/dev/null 2>&1; then
+    echo "AppArmor успешно установлен"
+
+    # Включение и запуск службы
+    echo "Включение службы AppArmor..."
+    systemctl enable apparmor
+    systemctl start apparmor
+
+    echo "Текущий статус AppArmor:"
+    aa-status
+else
+    echo "Ошибка: Установка AppArmor не удалась"
+    exit 1
+fi
+
+echo "Установка завершена"

@@ -8,60 +8,64 @@ include <tunables/global>
 
 
 profile nginx /usr/sbin/nginx flags=(enforce) { 
-  # загружаем общие библеотеки и файлы их поддержки  
-  include <abstractions/base>
-  # resolve hostnames/usernames
-  include <abstractions/nameservice>
   # позволяет NGINX слушать разные порты
-  include <abstractions/apache2-common> 
+  include <abstractions/apache2-common>
+
+  # загружаем общие библеотеки и файлы их поддержки
+  include <abstractions/base>
+
+  # файл абстракции AppArmor, который предоставляет набор правил для доступа к сетевой информационной службе 
+  include <abstractions/nis>
+
   # чтение openssl конфигурации
   include <abstractions/openssl>
+  
   # чтение ssl - сертификатов
-  include <abstractions/ssl_keys> 
-  # файл абстракции AppArmor, который предоставляет набор правил для доступа к сетевой информационной службе 
-  include <abstractions/nis> 
+  include <abstractions/ssl_keys>
 
+  # resolve hostnames/usernames
+  include <abstractions/nameservice>
 
   # обход проверки разрешений чтения, записи и выполнения файлов
   capability dac_override,
 
-  # выполнение различных сетевых операций
-  capability net_admin,
+  # позволяет процессу обходить проверки разрешений на чтение файлов и проверки разрешений на чтение/выполнение каталогов
+  capability dac_read_search,
+
+  # связывание сокетов с портами ниже 1024  
+  capability net_bind_service,
 
   # изменение GID
   capability setgid,
+  
 
   # изменение UID
   capability setuid,
-  
-  # связывание сокетов с портами ниже 1024
-  capability net_bind_service,
 
-  # Разрешить Nginx считывать и записывать данные в свои конфигурационные файлы
-  /etc/nginx/** r,
-  /etc/nginx/conf.d/** r,
-  /etc/nginx/sites-enabled/** r,
-  /etc/nginx/sites-available/** r,
+  /data/www/safe/* r,
 
-  # Разрешить Nginx читать и записывать в свои лог-файлы
-  /var/log/nginx/** rw,
+  deny /data/www/unsafe/* r,
 
-  # Разрешить Nginx доступ к своему файлу идентификатора процесса
-  /run/nginx.pid r,
+  /etc/group r,
 
-  # Разрешить Nginx доступ к своему файлу сокета
-  /var/run/nginx.sock rw,
+  /etc/nginx/conf.d/ r,
 
-  # Разрешить Nginx выполнять свои CGI-скрипты
-  /usr/lib/nginx/modules/*.so mr,
+  /etc/nginx/mime.types r,
 
-  # Разрешить Nginx доступ к своему корневому каталогу документов
-  /var/www/** r,
+  /etc/nginx/nginx.conf r,
 
-  # Разрешить Nginx прослушивать порты HTTP и HTTPS
-  network inet tcp,
-  network inet udp,
+  /etc/nsswitch.conf r,
 
-  # Запретить доступ ко всем другим файловым системам
-  deny /{,**} rw,
+  /etc/passwd r,
+
+  /etc/ssl/openssl.cnf r,
+
+  /run/nginx.pid rw,
+
+  /usr/sbin/nginx mr,
+
+  /var/log/nginx/access.log w,
+
+  /var/log/nginx/error.log w,
+
 }
