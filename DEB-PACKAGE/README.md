@@ -40,3 +40,10 @@ After that, we can install the package with the following command:
 ```bash
 apt-get install apparmor-profiles-1.0.1-main-all.deb
 ```
+
+
+## ___Other___
+
+For more information, please refer to the official documentation of the deb package.
+
+Also, you can find more information about the deb package in [web-site](https://habr.com/ru/articles/78094/?code=335a2372b164ab8acd94d321654f48bb&state=ihNXbMEXXxWuzP0zlDiioiGD&hl=ru).
