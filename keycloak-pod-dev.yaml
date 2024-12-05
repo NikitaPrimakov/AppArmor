@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: keycloak-apparmor-dev
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/hello: localhost/keycloak.profile
+spec:
+  containers:
+  - name: hello
+    image: busybox
+    command: [ "sh", "-c", "echo 'Hello AppArmor!' && sleep 1h" ]
