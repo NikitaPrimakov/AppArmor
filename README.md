@@ -3,6 +3,7 @@
 1. [Nginx](https://github.com/NikitaPrimakov/AppArmor/tree/main/nginx)
 2. [Keycloak](https://github.com/NikitaPrimakov/AppArmor/tree/main/keycloak)
 3. [Php - fpm](https://github.com/NikitaPrimakov/AppArmor/tree/main/php)
+4. [Build binary deb package](https://github.com/NikitaPrimakov/AppArmor/tree/main/DEB-PACKAGE)
 
 # AppArmor profiles
 
