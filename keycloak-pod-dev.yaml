@@ -8,6 +8,6 @@ metadata:
     container.apparmor.security.beta.kubernetes.io/hello: localhost/keycloak.profile
 spec:
   containers:
-  - name: hello
+  - name: keycloak-profile-dev
     image: busybox
     command: [ "sh", "-c", "echo 'Hello AppArmor!' && sleep 1h" ]
