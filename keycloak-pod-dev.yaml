@@ -1,13 +1,12 @@
-# The method of connecting the apparmor profile to kybernetes
-
 apiVersion: v1
 kind: Pod
 metadata:
-  name: keycloak-apparmor-dev
+  name: hello-apparmor
   annotations:
-    container.apparmor.security.beta.kubernetes.io/hello: localhost/keycloak.profile
+    # Tell Kubernetes to apply the AppArmor profile "k8s-apparmor-example-profile"
+    container.apparmor.security.beta.kubernetes.io/hello: localhost/keycloak
 spec:
   containers:
-  - name: keycloak-profile-dev
+  - name: hello
     image: busybox
     command: [ "sh", "-c", "echo 'Hello AppArmor!' && sleep 1h" ]
