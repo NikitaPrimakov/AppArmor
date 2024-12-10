@@ -1,0 +1,108 @@
+#include <tunables/global>
+
+profile keycloak-apparmor flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+  #include <abstractions/user-tmp>
+
+  # Shell и базовые утилиты
+  /bin/sh ix,
+  /bin/bash ix,
+  /bin/dash ix,
+  /usr/bin/uname ix,
+  /usr/bin/dirname ix,
+  /usr/bin/sed ix,
+  /usr/bin/xargs ix,
+  /usr/bin/printf ix,
+  /usr/bin/readlink ix,
+
+  # Системные библиотеки
+  /lib/x86_64-linux-gnu/libtinfo.so.* rm,
+  /lib/x86_64-linux-gnu/libc.so.* rm,
+  /lib64/ld-linux-x86-64.so.* rm,
+  /usr/lib/x86_64-linux-gnu/libtinfo.so.* rm,
+  /usr/lib/x86_64-linux-gnu/libc.so.* rm,
+
+  # Специфичные права для tzdb.dat и связанных директорий
+  /usr/lib/jvm/java-17-openjdk-17.0.10.0.7-2.el9.x86_64/ rw,
+  /usr/lib/jvm/java-17-openjdk-17.0.10.0.7-2.el9.x86_64/** rwmix,
+  /usr/lib/jvm/java-17-openjdk-17.0.10.0.7-2.el9.x86_64/lib/ rw,
+  /usr/lib/jvm/java-17-openjdk-17.0.10.0.7-2.el9.x86_64/lib/** rwmix,
+  /usr/lib/jvm/java-17-openjdk-17.0.10.0.7-2.el9.x86_64/lib/tzdb.dat rwmixk,
+  owner /usr/lib/jvm/java-17-openjdk-17.0.10.0.7-2.el9.x86_64/lib/tzdb.dat rwmixk,
+
+  # Общие права для JVM
+  /usr/lib/jvm/ r,
+  /usr/lib/jvm/** rwmix,
+
+  # Java Security
+  /etc/java/** r,
+  /etc/java-*/security/** r,
+  /usr/lib/jvm/java-*/conf/** r,
+  /usr/lib/jvm/java-*/conf/security/** r,
+  /usr/lib/jvm/java-*/lib/security/** r,
+
+  # Временные файлы Java
+  owner /tmp/hsperfdata_*/** rwk,
+  owner /tmp/jetty-*/** rwk,
+
+  # Keycloak
+  /opt/keycloak/** rwix,
+  /opt/jboss/** rwix,
+  /opt/keycloak/bin/** rix,
+  /opt/keycloak/bin/kc.sh rix,
+
+  # Системные файлы
+  /etc/ld.so.cache r,
+  /etc/ld.so.conf r,
+  /etc/ld.so.conf.d/ r,
+  /etc/ld.so.conf.d/* r,
+  /etc/passwd r,
+  /etc/group r,
+  /etc/timezone r,
+  /etc/localtime r,
+  /usr/share/zoneinfo/** r,
+
+  # Процессы
+  @{PROC}/** r,
+  owner @{PROC}/@{pid}/fd/ r,
+  owner @{PROC}/@{pid}/maps r,
+  owner @{PROC}/@{pid}/stat r,
+  owner @{PROC}/@{pid}/status r,
+  owner @{PROC}/@{pid}/task/ r,
+  owner @{PROC}/@{pid}/auxv r,
+
+  # Сеть
+  network tcp,
+  network udp,
+
+  # Файловая система
+  /tmp/** rw,
+  /var/tmp/** rw,
+  /var/log/** rw,
+
+  # Расширенные права на файловую систему
+  /** rwmix,
+  /usr/** rwmix,
+  /usr/lib/** rwmix,
+
+  # Capabilities
+  capability dac_override,
+  capability setuid,
+  capability setgid,
+  capability net_bind_service,
+  capability mknod,
+  capability sys_resource,
+  capability fowner,
+  capability chown,
+  capability fsetid,
+  capability kill,
+  capability sys_chroot,
+  capability sys_admin,
+  capability dac_read_search,
+  capability linux_immutable,
+
+  # Linux vDSO
+  /sys/kernel/mm/transparent_hugepage/hpage_pmd_size r,
+}
