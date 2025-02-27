@@ -49,6 +49,7 @@ profile nginx /usr/sbin/nginx flags=(enforce) {
   /etc/group r,
 
   /etc/nginx/conf.d/ r,
+  /etc/nginx/conf.d/*.conf r,
 
   /etc/nginx/mime.types r,
 
